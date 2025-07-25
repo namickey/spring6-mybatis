@@ -7,7 +7,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import com.example.demo.entity.Item;
-import com.example.demo.entity.ItemMapper;
 
 import lombok.RequiredArgsConstructor;
 
@@ -15,14 +14,12 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class MenuController {
 
-    private final ItemMapper itemMapper;
+    private final ItemFindService itemFindService;
 
     @GetMapping("/")
     public String index(Model model) {
 
-        System.out.println("MenuController.index() called.........");
-
-        List<Item> list = itemMapper.selectAll();
+        List<Item> list = itemFindService.findAllItems();
         model.addAttribute("itemList", list);
         return "menu";
     }

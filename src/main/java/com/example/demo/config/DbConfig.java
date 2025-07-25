@@ -6,10 +6,9 @@ import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 
-@Configuration
+@org.springframework.context.annotation.Configuration
 @MapperScan("com.example.demo")
 public class DbConfig {
     @Bean
@@ -26,6 +25,12 @@ public class DbConfig {
     public SqlSessionFactory sqlSessionFactory(DataSource dataSource) throws Exception {
         SqlSessionFactoryBean factory = new SqlSessionFactoryBean();
         factory.setDataSource(dataSource);
+        
+        // MyBatis設定でアンダースコアからキャメルケースへの自動マッピングを有効化
+        org.apache.ibatis.session.Configuration configuration = new org.apache.ibatis.session.Configuration();
+        configuration.setMapUnderscoreToCamelCase(true);
+        factory.setConfiguration(configuration);
+        
         return factory.getObject();
     }
 }
